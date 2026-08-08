@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="css/style.css">
 <noscript>
 <style>
-.reveal, .hero-badge, .hero h1, .hero-sub, .hero-cta, .hero-stats { opacity: 1 !important; transform: none !important; }
+.reveal, .section-head, .cta-banner, .review-score { opacity: 1 !important; transform: none !important; }
+.hero-badge, .hero-title .word span, .hero-sub, .hero-status, .hero-cta, .hero-stats, .stat { opacity: 1 !important; transform: none !important; }
 .card, .lavoro, .review-card, .chip { opacity: 1 !important; transform: none !important; }
 </style>
 </noscript>
@@ -107,9 +108,10 @@
 <section class="hero" id="top">
   <div class="hero-bg" style="background-image:url('images/hero.jpg')"></div>
   <div class="hero-overlay"></div>
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
   <div class="container hero-inner">
     <span class="hero-badge">Opere speciali di ingegneria geotecnica</span>
-    <h1>Perforazioni, sondaggi e consolidamento del territorio</h1>
+    <h1 class="hero-title"><span class="word"><span>Perforazioni,</span></span> <span class="word"><span>sondaggi</span></span> <span class="word"><span>e consolidamento</span></span> <span class="word"><span>del territorio</span></span></h1>
     <p class="hero-sub">F.B. Opere Speciali s.r.l. opera dal 1999 nello studio e nel consolidamento di suolo e sottosuolo, con attrezzature di perforazione, trivellazione e sondaggio gestite direttamente. Interventi in tutto il territorio nazionale, con focus sul centro Italia.</p>
     <p class="hero-status" id="heroStatus"><span class="status-dot status-dot-lg"></span><span id="heroStatusText">Verifica orari…</span></p>
     <div class="hero-cta">
@@ -122,6 +124,7 @@
       <div class="stat"><span class="stat-num"><span class="counter" data-target="4">0</span>,5</span><span class="stat-label">★ su Google</span></div>
     </div>
   </div>
+  <a class="hero-scroll" href="#azienda" aria-label="Scorri per scoprire di più"><span class="hero-scroll-wheel"></span></a>
 </section>
 
 <div class="ticker" aria-hidden="true">
@@ -443,6 +446,15 @@
   <a href="#contatti" class="mobile-cta-btn mobile-cta-btn-accent">Preventivo</a>
 </div>
 
+<script>
+/* Hero word delays — sincrono, prima del primo paint (anti-flash) */
+(function () {
+  var words = document.querySelectorAll('.hero-title .word span');
+  words.forEach(function (el, i) { el.style.animationDelay = (0.35 + i * 0.09) + 's'; });
+  var stats = document.querySelectorAll('.hero-stats .stat');
+  stats.forEach(function (el, i) { el.style.animationDelay = (1.15 + i * 0.13) + 's'; });
+})();
+</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
