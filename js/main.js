@@ -150,12 +150,9 @@
     counters.forEach(function (c) { io.observe(c); });
   }
 
-  /* ---------- Cookie consent + deferred map ---------- */
+  /* ---------- Mappa Google (sempre visibile — demo) ---------- */
   var mapWrap = document.getElementById('mapWrap');
-  var banner = document.getElementById('cookieBanner');
-  var ACCEPT = 'fbo_cookie_ok';
-  var renderMap = function () {
-    if (!mapWrap || mapWrap.querySelector('iframe')) return;
+  if (mapWrap && !mapWrap.querySelector('iframe')) {
     var iframe = document.createElement('iframe');
     iframe.title = 'Mappa FB Opere Speciali';
     iframe.width = '600'; iframe.height = '300'; iframe.style.border = '0';
@@ -163,25 +160,6 @@
     iframe.allowFullscreen = true;
     iframe.src = 'https://www.google.com/maps?q=Via+dei+Fienili+120+Velletri&output=embed';
     mapWrap.appendChild(iframe);
-  };
-  if (banner) {
-    var decide = function (v) {
-      try { localStorage.setItem(ACCEPT, v); } catch (e) {}
-      banner.style.display = 'none';
-      if (v === '1') renderMap();
-    };
-    var stored = null;
-    try { stored = localStorage.getItem(ACCEPT); } catch (e) {}
-    if (stored !== null) {
-      banner.style.display = 'none';
-      if (stored === '1') renderMap();
-    } else {
-      var showBanner = function () { banner.style.display = 'flex'; };
-      window.addEventListener('scroll', showBanner, { passive: true, once: true });
-      var t = setTimeout(showBanner, 3500);
-      document.getElementById('cookieAccept').addEventListener('click', function () { clearTimeout(t); decide('1'); });
-      document.getElementById('cookieDecline').addEventListener('click', function () { clearTimeout(t); decide('0'); });
-    }
   }
 
   /* ---------- Contact form: feedback invio ---------- */
