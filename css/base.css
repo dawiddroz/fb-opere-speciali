@@ -17,6 +17,7 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-x: clip; /* clip non crea scroll container → position: sticky funziona */
 }
 
 img, video { max-width: 100%; height: auto; display: block; }

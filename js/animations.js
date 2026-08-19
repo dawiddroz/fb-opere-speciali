@@ -19,6 +19,7 @@
     function raf(time) { window.lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     window.__lenisReady = true;
+    if (window.__fboTrackRequest) window.lenis.on('scroll', window.__fboTrackRequest);
   }
 
   function initMotion() {
@@ -84,22 +85,37 @@
       });
     }
 
-    /* ---------- Gallery orizzontale lavori ---------- */
+    /* ---------- Gallery orizzontale lavori (rAF-driven: funziona con Lenis,
+       scroll nativo e webview embedded — niente dipendenza dagli eventi scroll) ---------- */
     var scrollSec = document.getElementById('lavori');
     var track = document.getElementById('lavoriTrack');
+    var pbar2 = document.getElementById('lavoriProgressBar');
     if (scrollSec && track) {
+      var maxShift = 0;
+      var ticking = false;
       var setHeights = function () {
-        var maxShift = track.scrollWidth - window.innerWidth;
+        maxShift = track.scrollWidth - window.innerWidth;
         scrollSec.style.height = (maxShift + window.innerHeight) + 'px';
-        return maxShift;
       };
-      var maxShift = setHeights();
-      window.addEventListener('resize', function () { maxShift = setHeights(); }, { passive: true });
-      M.scroll(function (p) {
+      var updateTrack = function () {
+        ticking = false;
+        var r = scrollSec.getBoundingClientRect();
+        var total = r.height - window.innerHeight;
+        var p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
         track.style.transform = 'translate3d(' + (-p * maxShift) + 'px,0,0)';
-        var bar = document.getElementById('lavoriProgressBar');
-        if (bar) bar.style.transform = 'scaleX(' + p + ')';
-      }, { target: scrollSec, offset: ['start start', 'end end'] });
+        if (pbar2) pbar2.style.transform = 'scaleX(' + p + ')';
+      };
+      var requestTrack = function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(updateTrack); }
+      };
+      setHeights();
+      window.addEventListener('resize', function () { setHeights(); requestTrack(); }, { passive: true });
+      window.addEventListener('scroll', requestTrack, { passive: true });
+      // Lenis emette la propria callback ogni frame → copre anche gli ambienti
+      // dove gli eventi scroll nativi non arrivano (webview/preview embedded)
+      window.__fboTrackRequest = requestTrack;
+      if (window.lenis) window.lenis.on('scroll', requestTrack);
+      updateTrack();
 
       /* video pannello: parte quando entra in vista */
       var vid = track.querySelector('video');
