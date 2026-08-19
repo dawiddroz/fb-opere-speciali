@@ -14,7 +14,8 @@
 <meta property="og:title" content="FB Opere Speciali s.r.l. — Perforazioni, Geotecnica e Consolidamento del Territorio">
 <meta property="og:description" content="Dal 1999 perforazioni, trivellazioni, sondaggi e indagini geognostiche in tutta Italia. Attrezzature di perforazione gestite internamente.">
 <meta property="og:url" content="https://www.fboperespeciali.it/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://www.fboperespeciali.it/images/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FB Opere Speciali s.r.l. — Perforazioni, Geotecnica e Consolidamento del Territorio">
 <meta name="twitter:description" content="Dal 1999 perforazioni, trivellazioni, sondaggi e indagini geognostiche in tutta Italia.">
 <meta name="geo.region" content="IT-RM">
@@ -22,13 +23,25 @@
 <meta name="geo.position" content="41.6580299;12.7747717">
 <meta name="ICBM" content="41.6580299, 12.7747717">
 <link rel="icon" href="images/logo.png" type="image/png">
+<link rel="preload" href="fonts/fraunces-100-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/fraunces-italic-100-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/space-grotesk-300-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="images/hero.jpg" as="image">
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+/* Anti-flash: hero parte al primo paint, zero dipendenze JS */
+.hero-badge, .hero-title .word span, .hero-sub, .hero-status, .hero-cta, .hero-stats .stat { opacity: 0; }
+.hero-badge { transform: translateY(18px); }
+.hero-sub, .hero-status, .hero-cta { transform: translateY(20px); }
+.hero-stats .stat { transform: translateY(26px); }
+</style>
 <noscript>
 <style>
-.reveal, .section-head, .cta-banner, .review-score { opacity: 1 !important; transform: none !important; }
-.hero-badge, .hero-title .word span, .hero-sub, .hero-status, .hero-cta, .hero-stats, .stat { opacity: 1 !important; transform: none !important; }
-.card, .lavoro, .review-card, .chip { opacity: 1 !important; transform: none !important; }
+.reveal, .reveal-img, .reveal-line, .hero-badge, .hero-title .word span,
+.hero-sub, .hero-status, .hero-cta, .hero-stats .stat, .hero-tech-inner { opacity: 1 !important; transform: none !important; }
 </style>
 </noscript>
 <script type="application/ld+json">
@@ -39,7 +52,7 @@
   "alternateName": "FB Opere Speciali",
   "description": "Perforazioni, trivellazioni, sondaggi, carotaggi, micropali, ancoraggi e indagini geognostiche per lo studio e il consolidamento del territorio.",
   "url": "https://www.fboperespeciali.it/",
-  "telephone": "+3906****5711",
+  "telephone": "+39069625711",
   "email": "info@fboperespeciali.it",
   "vatID": "01952020590",
   "foundingDate": "1999",
@@ -60,7 +73,7 @@
     "closes": "16:00"
   },
   "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.5", "reviewCount": "2"},
-  "areaServed": ["Lazio", "Abruzzo", "Umbria", "Toscana", "Italia"],
+  "areaServed": ["Lazio", "Abruzzo", "Umbria", "Toscana", "Lombardia", "Piemonte", "Veneto", "Liguria", "Emilia-Romagna", "Toscana", "Molise", "Calabria", "Sardegna", "Puglia", "Basilicata", "Sicilia", "Trentino"],
   "sameAs": ["https://www.facebook.com/fboperespecialisrl", "https://www.instagram.com/fboperespecialisrl/"],
   "priceRange": "€€€"
 }
@@ -69,21 +82,8 @@
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
 <div class="progress-bar" aria-hidden="true"></div>
-
-<header class="topbar">
-  <div class="container topbar-inner">
-    <div class="topbar-left">
-      <a href="tel:+39069625711" class="topbar-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 06 9625711</a>
-      <a href="mailto:info@fboperespeciali.it" class="topbar-item topbar-mail"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@fboperespeciali.it</a>
-    </div>
-    <div class="topbar-right">
-      <span class="status-pill" id="statusPill" role="status" aria-live="polite"><span class="status-dot"></span><span id="statusText">Verifica orari…</span></span>
-      <span class="topbar-item topbar-hide-sm">Via dei Fienili, 120 — Velletri (RM)</span>
-      <a href="https://www.facebook.com/fboperespecialisrl" target="_blank" rel="noopener" class="topbar-item" aria-label="Facebook"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/fboperespecialisrl/" target="_blank" rel="noopener" class="topbar-item" aria-label="Instagram"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-    </div>
-  </div>
-</header>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
 
 <nav class="nav" id="nav">
   <div class="container nav-inner">
@@ -97,109 +97,160 @@
       <li><a href="#azienda">Azienda</a></li>
       <li><a href="#servizi">Servizi</a></li>
       <li><a href="#lavori">Lavori</a></li>
-      <li><a href="#recensioni">Recensioni</a></li>
-      <li><a href="#contatti">Contatti</a></li>
+      <li><a href="#processo">Metodo</a></li>
       <li><a href="#contatti" class="btn btn-primary btn-sm">Richiedi preventivo</a></li>
     </ul>
   </div>
 </nav>
 
 <main id="main">
+
+<!-- ================= HERO ================= -->
 <section class="hero" id="top">
-  <div class="hero-bg" style="background-image:url('images/hero.jpg')"></div>
+  <div class="hero-bg" style="background-image:url('images/hero.jpg')" role="img" aria-label="Cantiere di perforazione FB Opere Speciali"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-grid-overlay" aria-hidden="true"></div>
-  <div class="container hero-inner">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="scanline" aria-hidden="true"></div>
+  <div class="hero-frame" aria-hidden="true"></div>
+
+  <div class="hero-inner">
     <span class="hero-badge">Opere speciali di ingegneria geotecnica</span>
-    <h1 class="hero-title"><span class="word"><span>Perforazioni,</span></span> <span class="word"><span>sondaggi</span></span> <span class="word"><span class="accent-italic">e consolidamento</span></span> <span class="word"><span>del territorio</span></span></h1>
+    <h1 class="hero-title">
+      <span class="word"><span>Perforazioni,</span></span>
+      <span class="word"><span>sondaggi</span></span>
+      <span class="word"><span><em>e consolidamento</em></span></span>
+      <span class="word"><span>del territorio</span></span>
+    </h1>
     <p class="hero-sub">F.B. Opere Speciali s.r.l. opera dal 1999 nello studio e nel consolidamento di suolo e sottosuolo, con attrezzature di perforazione, trivellazione e sondaggio gestite direttamente. Interventi in tutto il territorio nazionale, con focus sul centro Italia.</p>
-    <p class="hero-status" id="heroStatus"><span class="status-dot status-dot-lg"></span><span id="heroStatusText">Verifica orari…</span></p>
+    <p class="hero-status" id="heroStatus" role="status" aria-live="polite"><span class="status-dot" id="heroDot"></span><span id="heroStatusText">Verifica orari…</span></p>
     <div class="hero-cta">
-      <a href="#contatti" class="btn btn-primary">Richiedi un preventivo</a>
-      <a href="tel:+39069625711" class="btn btn-ghost">Chiama: 06 9625711</a>
+      <a href="#contatti" class="btn btn-primary" data-magnetic>Richiedi un preventivo</a>
+      <a href="#lavori" class="btn btn-ghost" data-magnetic>Esplora i lavori <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num"><span class="counter" data-target="25">0</span>+</span><span class="stat-label">Anni di esperienza</span></div>
-      <div class="stat"><span class="stat-num">18</span><span class="stat-label">Regioni servite</span></div>
-      <div class="stat"><span class="stat-num"><span class="counter" data-target="4">0</span>,5</span><span class="stat-label">★ su Google</span></div>
+      <div class="stat" style="animation-delay:1.1s"><span class="stat-num"><span class="counter" data-count="25">0</span><span class="accent">+</span></span><span class="stat-label">Anni di esperienza</span></div>
+      <div class="stat" style="animation-delay:1.24s"><span class="stat-num"><span class="counter" data-count="16">0</span><span class="accent">+</span></span><span class="stat-label">Regioni servite</span></div>
+      <div class="stat" style="animation-delay:1.38s"><span class="stat-num"><span class="counter" data-count="4.5" data-decimals="1">0</span><span class="accent">★</span></span><span class="stat-label">Su Google</span></div>
     </div>
   </div>
-  <a class="hero-scroll" href="#azienda" aria-label="Scorri per scoprire di più"><span class="hero-scroll-wheel"></span></a>
+
+  <div class="hero-tech">
+    <div class="container hero-tech-inner">
+      <span><b>41.6580299° N</b> — 12.7747717° E</span><i>◆</i>
+      <span>Via dei Fienili 120 · Velletri (RM)</span><i>◆</i>
+      <span>P.IVA 01952020590</span><i>◆</i>
+      <span>Dal 1999</span><i>◆</i>
+      <span>Parco macchine: perforatrici idrauliche · rotazione · percussione</span><i>◆</i>
+      <span>Unità: sondaggi · micropali · tiranti · drenaggi</span>
+    </div>
+  </div>
+  <a class="hero-scroll" href="#azienda" aria-label="Scorri per scoprire di più">Scorri</a>
 </section>
 
+<!-- ================= TICKER ================= -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
     <div class="ticker-group">
-      <span>LAZIO</span><i>◆</i><span>ABRUZZO</span><i>◆</i><span>UMBRIA</span><i>◆</i><span>TOSCANA</span><i>◆</i><span>LOMBARDIA</span><i>◆</i><span>SICILIA</span><i>◆</i><span>PIEMONTE</span><i>◆</i><span>VENETO</span><i>◆</i><span>LIGURIA</span><i>◆</i><span>MOLISE</span><i>◆</i><span>CALABRIA</span><i>◆</i><span>SARDEGNA</span><i>◆</i><span>PUGLIA</span><i>◆</i><span>EMILIA-ROMAGNA</span><i>◆</i><span>BASILICATA</span><i>◆</i><span>TRENTINO</span><i>◆</i>
+      <span>Lazio</span><i>◆</i><span>Abruzzo</span><i>◆</i><span>Umbria</span><i>◆</i><span>Toscana</span><i>◆</i><span>Lombardia</span><i>◆</i><span>Piemonte</span><i>◆</i><span>Veneto</span><i>◆</i><span>Liguria</span><i>◆</i><span>Emilia-Romagna</span><i>◆</i><span>Molise</span><i>◆</i><span>Calabria</span><i>◆</i><span>Sardegna</span><i>◆</i><span>Puglia</span><i>◆</i><span>Basilicata</span><i>◆</i><span>Sicilia</span><i>◆</i><span>Trentino</span><i>◆</i>
     </div>
     <div class="ticker-group">
-      <span>LAZIO</span><i>◆</i><span>ABRUZZO</span><i>◆</i><span>UMBRIA</span><i>◆</i><span>TOSCANA</span><i>◆</i><span>LOMBARDIA</span><i>◆</i><span>SICILIA</span><i>◆</i><span>PIEMONTE</span><i>◆</i><span>VENETO</span><i>◆</i><span>LIGURIA</span><i>◆</i><span>MOLISE</span><i>◆</i><span>CALABRIA</span><i>◆</i><span>SARDEGNA</span><i>◆</i><span>PUGLIA</span><i>◆</i><span>EMILIA-ROMAGNA</span><i>◆</i><span>BASILICATA</span><i>◆</i><span>TRENTINO</span><i>◆</i>
+      <span>Lazio</span><i>◆</i><span>Abruzzo</span><i>◆</i><span>Umbria</span><i>◆</i><span>Toscana</span><i>◆</i><span>Lombardia</span><i>◆</i><span>Piemonte</span><i>◆</i><span>Veneto</span><i>◆</i><span>Liguria</span><i>◆</i><span>Emilia-Romagna</span><i>◆</i><span>Molise</span><i>◆</i><span>Calabria</span><i>◆</i><span>Sardegna</span><i>◆</i><span>Puglia</span><i>◆</i><span>Basilicata</span><i>◆</i><span>Sicilia</span><i>◆</i><span>Trentino</span><i>◆</i>
     </div>
   </div>
 </div>
 
+<!-- ================= AZIENDA ================= -->
 <section class="section" id="azienda">
+  <span class="ghost-num" aria-hidden="true">01</span>
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">L'azienda</span>
-      <h2>Esperienza sul campo, <em class="accent-italic">dal 1999</em></h2>
+    <div class="section-head reveal">
+      <span class="kicker"><span class="kicker-idx">01 /</span> L'azienda</span>
+      <h2>Esperienza sul campo, <em>dal 1999</em></h2>
     </div>
     <div class="split">
       <div class="split-text">
-        <p>F.B. Opere Speciali s.r.l. opera nel settore dei consolidamenti del territorio da oltre 25 anni, accumulando una vasta esperienza nell'edilizia, nello studio e nel consolidamento del territorio. Grazie all'uso di attrezzature di perforazione, trivellazione e sondaggio <strong>gestite internamente</strong>, la società ha eseguito interventi su suolo e sottosuolo in tutte le regioni italiane, con un focus particolare sul centro Italia.</p>
-        <p>Il parco macchine, all'avanguardia, comprende perforatrici idrauliche per carotaggi di precisione e perforazioni profonde, oltre ad attrezzature per perforazioni a rotazione e a percussione, ideali per terreni di varia consistenza. Le macchine operano sia in spazi aperti sia in ambienti ristretti, con personale qualificato interno.</p>
+        <p class="reveal">F.B. Opere Speciali s.r.l. opera nel settore dei consolidamenti del territorio da oltre 25 anni, accumulando una vasta esperienza nell'edilizia, nello studio e nel consolidamento del territorio. Grazie all'uso di attrezzature di perforazione, trivellazione e sondaggio <strong>gestite internamente</strong>, la società ha eseguito interventi su suolo e sottosuolo in tutte le regioni italiane, con un focus particolare sul centro Italia.</p>
+        <p class="reveal">Il parco macchine, all'avanguardia, comprende perforatrici idrauliche in grado di eseguire carotaggi di precisione e perforazioni profonde, oltre ad attrezzature specializzate per perforazioni a rotazione e a percussione, ideali per terreni di varie consistenze. Le macchine operano sia in spazi aperti sia in ambienti ristretti, con personale qualificato interno.</p>
         <ul class="check-list">
-          <li>Personale qualificato e attrezzature di proprietà</li>
-          <li>Laboratorio geotecnico esterno: prove penetrometriche, carico su piastra, densità in situ</li>
-          <li>Operazioni conformi alle normative ambientali e di sicurezza sul lavoro</li>
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Personale qualificato e attrezzature di proprietà</li>
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Laboratorio geotecnico esterno: prove penetrometriche, carico su piastra, densità in situ</li>
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Operazioni conformi alle normative ambientali e di sicurezza sul lavoro</li>
         </ul>
-        <a href="#contatti" class="btn btn-outline">Parliamo del tuo progetto</a>
+        <a href="#contatti" class="btn btn-ghost reveal" data-magnetic>Parliamo del tuo progetto</a>
       </div>
       <div class="split-media">
-        <figure class="media-frame"><img src="images/azienda.jpg" alt="Opere di consolidamento del territorio FB Opere Speciali" width="837" height="600" loading="lazy" onerror="this.classList.add('img-placeholder')"></figure>
-        <figure class="media-frame media-frame-2"><img src="images/blueprint.jpg" alt="Progetto tecnico di ingegneria" width="1000" height="562" loading="lazy" onerror="this.classList.add('img-placeholder')"></figure>
+        <figure class="media-main reveal-img">
+          <img src="images/mori-m40.webp" alt="Perforatrice idraulica MORI M40 in cantiere" width="1600" height="1200" loading="lazy" onerror="this.classList.add('img-placeholder')">
+          <figcaption class="media-cap">MORI M40 — Perforatrice idraulica</figcaption>
+        </figure>
+        <figure class="media-second reveal-img">
+          <img src="images/azienda.webp" alt="Attrezzature di perforazione FB Opere Speciali" width="880" height="1014" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        </figure>
+        <div class="data-card reveal-line">
+          <b>25+</b> ANNI DI ATTIVITÀ<br>
+          <b>16+</b> REGIONI SERVIZIO<br>
+          <b>100%</b> ATTREZZATURE PROPRIE
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section section-dark" id="servizi">
+<!-- ================= SERVIZI ================= -->
+<section class="section section-dark section-rule" id="servizi">
+  <span class="ghost-num" aria-hidden="true">02</span>
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">Servizi</span>
-      <h2>Le nostre aree di <em class="accent-italic">competenza</em></h2>
+    <div class="section-head reveal">
+      <span class="kicker"><span class="kicker-idx">02 /</span> Servizi</span>
+      <h2>Le nostre aree di <em>competenza</em></h2>
     </div>
     <div class="cards">
       <article class="card reveal">
-        <img src="images/servizio-geotecnica.jpg" alt="Geotecnica e geognostica" width="951" height="390" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        <div class="card-media">
+          <span class="card-idx">01 / 04</span>
+          <img src="images/serv-geotecnica.webp" alt="Geotecnica e geognostica" width="1000" height="750" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        </div>
         <div class="card-body">
           <h3>Geotecnica e geognostica</h3>
           <p>Interventi nel settore della geotecnica e geognostica grazie a una lunga e consolidata esperienza nelle ricerche idriche, nelle perforazioni, trivellazioni e carotaggi.</p>
         </div>
+        <span class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </article>
       <article class="card reveal">
-        <img src="images/servizio-falda.jpg" alt="Ricerche idriche" width="951" height="390" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        <div class="card-media">
+          <span class="card-idx">02 / 04</span>
+          <img src="images/serv-falda.webp" alt="Ricerche idriche" width="800" height="598" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        </div>
         <div class="card-body">
           <h3>Ricerche idriche</h3>
           <p>Analisi qualitativa delle acque di falda e dei pozzi piezometrici: valutazione di contaminanti chimici, fisici e biologici per garantire la sicurezza dell'acqua potabile.</p>
         </div>
+        <span class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </article>
       <article class="card reveal">
-        <img src="images/servizio-perforazioni.jpg" alt="Perforazioni" width="951" height="390" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        <div class="card-media">
+          <span class="card-idx">03 / 04</span>
+          <img src="images/serv-perforazioni.webp" alt="Perforazioni e trivellazioni" width="1000" height="750" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        </div>
         <div class="card-body">
           <h3>Perforazioni</h3>
-          <p>Tecnologie avanzate per precisione e sicurezza in ogni progetto, con attrezzature di perforazione a rotazione e a percussione adatte a terreni di varie consistenze.</p>
+          <p>Tecnologie avanzate per precisione e sicurezza in ogni progetto, con attrezzature a rotazione e a percussione adatte a terreni di varie consistenze.</p>
         </div>
+        <span class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </article>
       <article class="card reveal">
-        <img src="images/servizio-carotaggi.jpg" alt="Fondazioni speciali e carotaggi" width="951" height="390" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        <div class="card-media">
+          <span class="card-idx">04 / 04</span>
+          <img src="images/serv-fondazioni.webp" alt="Fondazioni speciali" width="900" height="674" loading="lazy" onerror="this.classList.add('img-placeholder')">
+        </div>
         <div class="card-body">
           <h3>Fondazioni speciali</h3>
-          <p>Opere di fondazione essenziali quando terreno e struttura interagiscono: realizzazione e recupero di strutture in contesti ambientali complessi, incluse le fondazioni dei campi eolici.</p>
+          <p>Opere di fondazione essenziali quando terreno e struttura interagiscono: realizzazione e recupero di strutture in contesti complessi, incluse le fondazioni dei campi eolici.</p>
         </div>
+        <span class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
       </article>
     </div>
-    <div class="chips" aria-label="Altre competenze">
+    <div class="chips reveal" aria-label="Altre competenze">
       <span class="chip">Micropali e ancoraggi</span>
       <span class="chip">Tiranti attivi e passivi</span>
       <span class="chip">Chiodature</span>
@@ -215,108 +266,231 @@
   </div>
 </section>
 
-<section class="section" id="lavori">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Dove operiamo</span>
-      <h2>Esperienza e professionalità su tutto il <em class="accent-italic">territorio</em> nazionale</h2>
-      <p class="section-sub">Interventi eseguiti in tutte le regioni italiane, con un focus particolare sul centro Italia: Lazio, Abruzzo, Umbria e Toscana. Dal Lazio (Guidonia, Fiumicino, Aprilia, Nettuno, Terracina, Sabaudia, Cisterna di Latina, Civitavecchia, Fondi, Gaeta, Sezze, Velletri, Valmontone, Lariano, Anzio…) alle regioni più lontane: Lombardia, Sicilia, Trentino, Piemonte, Veneto, Liguria, Molise, Calabria, Sardegna, Puglia, Emilia-Romagna e Basilicata.</p>
+<!-- ================= LAVORI (horizontal) ================= -->
+<section class="lavori-scroll" id="lavori">
+  <div class="lavori-sticky">
+    <div class="lavori-top">
+      <div class="section-head" style="margin-bottom:0">
+        <span class="kicker"><span class="kicker-idx">03 /</span> Lavori</span>
+        <h2>Cantieri reali, <em>da nord a sud</em></h2>
+      </div>
+      <span class="lavori-hint">Scorri per esplorare →</span>
     </div>
-    <div class="lavori-grid">
-      <article class="lavoro">
-        <img src="images/site-2.jpg" alt="Cantiere di trivellazione" width="1000" height="662" loading="lazy" onerror="this.classList.add('img-placeholder')">
-        <div class="lavoro-body">
-          <h3>Indagini geognostiche</h3>
-          <p>Prove in sito e laboratorio geotecnico esterno: carico su piastra, densità in situ, prove penetrometriche statiche e dinamiche con attrezzature a maglio medio.</p>
+    <div class="lavori-track" id="lavoriTrack">
+      <div class="lavoro-panel lavoro-panel-intro">
+        <span class="kicker"><span class="kicker-idx">03 /</span> Lavori</span>
+        <h2>Esperienza e professionalità su tutto il <em>territorio</em> nazionale</h2>
+        <p>Interventi eseguiti in tutte le regioni italiane, con un focus particolare sul centro Italia. Ogni progetto è una testimonianza del nostro impegno verso l'eccellenza e la soddisfazione del cliente.</p>
+        <a href="#contatti" class="btn btn-primary" data-magnetic>Richiedi un preventivo</a>
+      </div>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">01</span>
+        <div class="lavoro-photo"><img src="images/lavoro-sond-velletri.webp" alt="Sondaggi geognostici FF.SS. Velletri" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Sondaggi geognostici</span><span class="lc-meta">FF.SS. Velletri (RM)</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">02</span>
+        <div class="lavoro-photo"><img src="images/lavoro-sond-ostiense.webp" alt="Indagini geognostiche Stazione Ostiense Roma" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Indagini geognostiche</span><span class="lc-meta">Roma — Stazione Ostiense</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">03</span>
+        <div class="lavoro-photo"><img src="images/lavoro-sond-guidonia.webp" alt="Sondaggi Guidonia" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Sondaggi</span><span class="lc-meta">Guidonia (RM)</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">04</span>
+        <div class="lavoro-photo"><img src="images/lavoro-sond-cesareo.webp" alt="Sondaggi San Cesareo" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Sondaggi</span><span class="lc-meta">San Cesareo (RM)</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">05</span>
+        <div class="lavoro-photo"><img src="images/lavoro-micropali-aquila.webp" alt="Micropali L'Aquila" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Micropali</span><span class="lc-meta">L'Aquila (AQ)</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">06</span>
+        <div class="lavoro-photo"><img src="images/lavoro-micropali-sora.webp" alt="Micropali Sora" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Micropali</span><span class="lc-meta">Sora (FR)</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">07</span>
+        <div class="lavoro-photo">
+          <video src="images/video-tiranti.mp4" poster="images/tiranti-poster.webp" muted loop playsinline preload="metadata" aria-label="Video di cantiere: installazione tiranti"></video>
         </div>
-      </article>
-      <article class="lavoro">
-        <img src="images/drill-2.jpg" alt="Perforazione con attrezzatura idraulica" width="1000" height="666" loading="lazy" onerror="this.classList.add('img-placeholder')">
-        <div class="lavoro-body">
-          <h3>Consolidamento strutture</h3>
-          <p>Micropali per paratie e fondazioni, tiranti, chiodature e drenaggi per il recupero e il consolidamento di strutture edilizie in contesti complessi.</p>
-        </div>
-      </article>
-      <article class="lavoro">
-        <img src="images/site-1.jpg" alt="Cantiere opere speciali" width="1000" height="666" loading="lazy" onerror="this.classList.add('img-placeholder')">
-        <div class="lavoro-body">
-          <h3>Parco macchine all'avanguardia</h3>
-          <p>Perforatrici idrauliche per carotaggi di precisione e perforazioni profonde, idonee per spazi aperti e ambienti ristretti.</p>
-        </div>
-      </article>
-    </div>
-    <div class="cta-banner">
-      <div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Installazione tiranti</span><span class="lc-meta">Video di cantiere</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">08</span>
+        <div class="lavoro-photo"><img src="images/lavoro-micropali-geomec.webp" alt="Micropali Geomec" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Micropali</span><span class="lc-meta">Geomec</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">09</span>
+        <div class="lavoro-photo"><img src="images/lavoro-tiranti-geomec.webp" alt="Tiranti Geomec" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Tiranti</span><span class="lc-meta">Geomec</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">10</span>
+        <div class="lavoro-photo"><img src="images/lavoro-gru-geomec.webp" alt="Cantiere con gru Geomec" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Cantiere con gru</span><span class="lc-meta">Geomec</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">11</span>
+        <div class="lavoro-photo"><img src="images/lavoro-dreni-m21.webp" alt="Drenaggi progetto M21" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Drenaggi</span><span class="lc-meta">Progetto M21</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">12</span>
+        <div class="lavoro-photo"><img src="images/lavoro-ponteggio-m21.webp" alt="Intervento su ponteggio progetto M21" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Intervento su ponteggio</span><span class="lc-meta">Progetto M21</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">13</span>
+        <div class="lavoro-photo"><img src="images/lavoro-micropali.webp" alt="Micropali e consolidamento" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Micropali e consolidamento</span><span class="lc-meta">Lavori vari</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel reveal-line">
+        <span class="lavoro-idx">14</span>
+        <div class="lavoro-photo"><img src="images/lavoro-tiranti.webp" alt="Tiranti" width="640" height="640" loading="lazy" onerror="this.classList.add('img-placeholder')"></div>
+        <figcaption class="lavoro-cap"><span class="lc-title">Tiranti</span><span class="lc-meta">Consolidamento</span></figcaption>
+      </figure>
+
+      <figure class="lavoro-panel lavoro-panel-cta">
+        <span class="kicker"><span class="kicker-idx">/</span> Prossimo progetto</span>
         <h3>Chiama oggi per soluzioni professionali e personalizzate</h3>
         <p>Il nostro team è pronto a rispondere alle tue domande e a fornirti un preventivo personalizzato.</p>
-      </div>
-      <a href="tel:+39069625711" class="btn btn-primary">06 9625711</a>
+        <a href="tel:+39069625711" class="btn btn-primary" data-magnetic>06 9625711 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+      </figure>
+    </div>
+    <div class="lavori-progress" aria-hidden="true"><i id="lavoriProgressBar"></i></div>
+  </div>
+</section>
+
+<!-- ================= PROCESSO ================= -->
+<section class="section section-dark section-rule" id="processo">
+  <span class="ghost-num" aria-hidden="true">04</span>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker"><span class="kicker-idx">04 /</span> Il nostro metodo</span>
+      <h2>I nostri <em>standard</em></h2>
+    </div>
+    <div class="process-grid">
+      <article class="process-card reveal">
+        <span class="p-idx">01 / 03</span>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2l8 3v6c0 5.25-3.4 9.74-8 11-4.6-1.26-8-5.75-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Elevati standard di sicurezza</h3>
+        <p>Tutte le operazioni sono conformi alle normative vigenti in materia ambientale e di sicurezza sul lavoro.</p>
+      </article>
+      <article class="process-card reveal">
+        <span class="p-idx">02 / 03</span>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>
+        </div>
+        <h3>Competenza</h3>
+        <p>Un gruppo specializzato nell'esecuzione di indagini geognostiche complete di relazione geotecnica, con professionisti interni ed esterni.</p>
+      </article>
+      <article class="process-card reveal">
+        <span class="p-idx">03 / 03</span>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8.5" r="5.5"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/></svg>
+        </div>
+        <h3>Professionalità</h3>
+        <p>Attrezzature all'avanguardia per interventi precisi e conformi alle normative vigenti, con personale qualificato interno.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="section section-light" id="recensioni">
+<!-- ================= RECENSIONI ================= -->
+<section class="section" id="recensioni">
+  <span class="ghost-num" aria-hidden="true">05</span>
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">Recensioni</span>
-      <h2>Cosa <em class="accent-italic">dicono</em> di noi</h2>
+    <div class="section-head reveal">
+      <span class="kicker"><span class="kicker-idx">05 /</span> Recensioni</span>
+      <h2>Cosa <em>dicono</em> di noi</h2>
     </div>
     <div class="review-summary">
-      <div class="review-score"><span class="review-big">4,5</span><span class="review-stars">★★★★<span class="star-half">☆</span></span><span class="review-count">su Google · 2 recensioni</span></div>
-      <div class="review-carousel" id="reviewCarousel" aria-roledescription="carosello" aria-label="Recensioni dei clienti">
-        <div class="review-track" id="reviewTrack">
-          <figure class="review-card">
-            <div class="review-stars">★★★★</div>
-            <blockquote>«Onesta nel lavoro e puntualità.»</blockquote>
-            <figcaption>Enzo — recensione Google</figcaption>
-          </figure>
-          <figure class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <blockquote>Professionisti seri e attrezzature all'avanguardia.</blockquote>
-            <figcaption>Cristiano — recensione Google</figcaption>
-          </figure>
+      <div class="review-score reveal">
+        <span class="review-big"><span class="counter" data-count="4.5" data-decimals="1">0</span><span class="dec">/5</span></span>
+        <span class="review-stars" aria-label="4 stelle e mezza su 5">★★★★<span class="star-half">☆</span></span>
+        <span class="review-count">Su Google · 2 recensioni</span>
+      </div>
+      <div class="reveal">
+        <div class="review-carousel" id="reviewCarousel" aria-roledescription="carosello" aria-label="Recensioni dei clienti">
+          <div class="review-track" id="reviewTrack">
+            <figure class="review-card">
+              <div class="review-stars">★★★★</div>
+              <blockquote>Onesta nel lavoro e puntualità.</blockquote>
+              <figcaption>Enzo — recensione Google</figcaption>
+            </figure>
+            <figure class="review-card">
+              <div class="review-stars">★★★★★</div>
+              <blockquote>Professionisti seri e attrezzature all'avanguardia.</blockquote>
+              <figcaption>Cristiano — recensione Google</figcaption>
+            </figure>
+          </div>
+          <div class="review-dots" id="reviewDots" role="tablist" aria-label="Seleziona recensione"></div>
         </div>
-        <div class="review-dots" id="reviewDots" role="tablist" aria-label="Seleziona recensione"></div>
+        <p class="review-note"><a href="https://www.google.com/maps/search/FB+Opere+Speciali+Velletri/" target="_blank" rel="noopener">Lascia una recensione su Google</a> · le recensioni non sono verificate da Google</p>
       </div>
     </div>
-    <p class="review-note"><a href="https://www.google.com/maps/search/FB+Opere+Speciali+Velletri/" target="_blank" rel="noopener">Lascia una recensione su Google</a> · le recensioni non sono verificate da Google</p>
   </div>
 </section>
 
-<section class="section" id="contatti">
+<!-- ================= CONTATTI ================= -->
+<section class="section section-dark section-rule" id="contatti">
+  <span class="ghost-num" aria-hidden="true">06</span>
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">Contatti</span>
-      <h2>Richiedi un <em class="accent-italic">preventivo</em></h2>
+    <div class="section-head reveal">
+      <span class="kicker"><span class="kicker-idx">06 /</span> Contatti</span>
+      <h2>Richiedi un <em>preventivo</em></h2>
+      <p class="section-sub">Rispondiamo a richieste di interventi nel settore della geotecnica e geognostica: scrivici o chiamaci, ti ricontattiamo con una proposta personalizzata.</p>
     </div>
     <div class="contact-grid">
-      <form id="contactForm" action="https://formsubmit.co/info@fboperespeciali.it" method="POST">
+      <form id="contactForm" class="contact-form reveal" action="https://formsubmit.co/info@fboperespeciali.it" method="POST">
         <input type="hidden" name="_subject" value="Richiesta dal sito web — FB Opere Speciali">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" value="https://www.fboperespeciali.it/">
         <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="form-row">
           <div class="form-field">
-            <label for="f-nome">Nome *</label>
-            <input id="f-nome" name="nome" type="text" required>
+            <label for="f-nome">Nome <em>*</em></label>
+            <input id="f-nome" name="nome" type="text" required placeholder="Il tuo nome" autocomplete="given-name">
           </div>
           <div class="form-field">
-            <label for="f-cognome">Cognome / Ragione sociale *</label>
-            <input id="f-cognome" name="cognome" type="text" required>
+            <label for="f-cognome">Cognome / Ragione sociale <em>*</em></label>
+            <input id="f-cognome" name="cognome" type="text" required placeholder="Cognome o azienda" autocomplete="family-name">
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
-            <label for="f-email">Email *</label>
-            <input id="f-email" name="email" type="email" required>
+            <label for="f-email">Email <em>*</em></label>
+            <input id="f-email" name="email" type="email" required placeholder="nome@email.it" autocomplete="email">
           </div>
           <div class="form-field">
             <label for="f-tel">Telefono</label>
-            <input id="f-tel" name="telefono" type="tel">
+            <input id="f-tel" name="telefono" type="tel" placeholder="+39 …" autocomplete="tel">
           </div>
         </div>
         <div class="form-field">
-          <label for="f-oggetto">Oggetto *</label>
+          <label for="f-oggetto">Oggetto <em>*</em></label>
           <select id="f-oggetto" name="oggetto" required>
             <option value="">Seleziona…</option>
             <option>Geotecnica, geognostica</option>
@@ -327,17 +501,18 @@
           </select>
         </div>
         <div class="form-field">
-          <label for="f-msg">Descrivi la richiesta *</label>
-          <textarea id="f-msg" name="messaggio" rows="5" required></textarea>
+          <label for="f-msg">Descrivi la richiesta <em>*</em></label>
+          <textarea id="f-msg" name="messaggio" rows="5" required placeholder="Descrivi il tuo intervento…"></textarea>
         </div>
         <label class="form-consent">
           <input type="checkbox" name="consenso" required>
           <span>Ho letto la <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a> e acconsento al trattamento dei miei dati per ricevere risposta alla presente richiesta (art. 13 GDPR) *</span>
         </label>
-        <button type="submit" class="btn btn-primary btn-block">Invia richiesta</button>
+        <button type="submit" class="btn btn-primary btn-block" data-magnetic>Invia richiesta</button>
         <p class="form-note" id="formNote">I dati inseriti saranno utilizzati esclusivamente per rispondere alla tua richiesta.</p>
       </form>
-      <aside class="contact-info">
+
+      <aside class="contact-aside reveal">
         <h3>Contatti utili</h3>
         <ul class="contact-list">
           <li>
@@ -360,10 +535,6 @@
             <strong>Sede legale</strong>
             <span>Via dei Fienili, 120 — 00049 Velletri (RM)</span>
           </li>
-          <li>
-            <strong>Orari</strong>
-            <span>Lun–Ven 09:00–16:00</span>
-          </li>
         </ul>
         <div class="hours-card">
           <h4>Orari di apertura</h4>
@@ -381,14 +552,16 @@
           <p class="hours-note">Orari aggiornati da Google Maps · fuori orario chiama il 06 9625711</p>
         </div>
         <div class="map-wrap" id="mapWrap">
-          <noscript><iframe title="Mappa FB Opere Speciali" src="https://www.google.com/maps?q=Via+dei+Fienili+120+Velletri&output=embed" width="600" height="300" style="border:0" loading="lazy"></iframe></noscript>
+          <iframe title="Mappa FB Opere Speciali" src="https://www.google.com/maps?q=Via+dei+Fienili+120+Velletri&output=embed" width="600" height="300" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
         </div>
       </aside>
     </div>
   </div>
 </section>
+
 </main>
 
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -401,7 +574,7 @@
         <li><a href="#azienda">Azienda</a></li>
         <li><a href="#servizi">Servizi</a></li>
         <li><a href="#lavori">Lavori</a></li>
-        <li><a href="#recensioni">Recensioni</a></li>
+        <li><a href="#processo">Metodo</a></li>
         <li><a href="#contatti">Contatti</a></li>
       </ul>
     </div>
@@ -424,14 +597,15 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="container">
+    <div class="container footer-bottom-inner">
       <span>© 2026 F.B. Opere Speciali s.r.l. — P.IVA 01952020590 · Via dei Fienili, 120, 00049 Velletri (RM)</span>
       <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> · <a href="cookie.html">Cookie Policy</a></span>
     </div>
   </div>
 </footer>
 
-<div class="mobile-cta">
+<!-- Sticky CTA mobile -->
+<div class="mobile-cta" id="mobileCta">
   <a href="tel:+39069625711" class="mobile-cta-btn">Chiama</a>
   <a href="#contatti" class="mobile-cta-btn mobile-cta-btn-accent">Preventivo</a>
 </div>
@@ -440,13 +614,10 @@
 /* Hero word delays — sincrono, prima del primo paint (anti-flash) */
 (function () {
   var words = document.querySelectorAll('.hero-title .word span');
-  words.forEach(function (el, i) { el.style.animationDelay = (0.35 + i * 0.09) + 's'; });
-  var stats = document.querySelectorAll('.hero-stats .stat');
-  stats.forEach(function (el, i) { el.style.animationDelay = (1.15 + i * 0.13) + 's'; });
+  words.forEach(function (el, i) { el.style.animationDelay = (0.2 + i * 0.1) + 's'; });
 })();
 </script>
-<script src="js/vendor/gsap.min.js" defer></script>
-<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/motion.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/main.js" defer></script>
 <script src="js/animations.js" defer></script>
