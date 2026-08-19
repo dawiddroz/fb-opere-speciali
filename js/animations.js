@@ -142,7 +142,11 @@
         manualUntil = performance.now() + 2500;
       }, { passive: false });
 
-      // Avanzamento via scroll pagina (ENHANCEMENT guardato)
+      // Avanzamento via scroll pagina (ENHANCEMENT guardato):
+      // p = 0 quando la sezione entra dal basso, avanza mentre la sezione
+      // scorre verso l'alto, p = 1 dopo ~60% di viewport. Indipendente
+      // dall'altezza della sezione. Attivo SOLO se si osserva movimento
+      // reale del rect (nei browser normali) e fuori dalla pausa manuale.
       var observed = false, lastTop = null;
       var manualUntil = 0;
       (function loop() {
@@ -150,10 +154,10 @@
         if (lastTop !== null && Math.abs(r.top - lastTop) > 1) observed = true;
         lastTop = r.top;
         var m = maxScroll();
-        var inView = r.bottom > 0 && r.top < (window.innerHeight || 800);
+        var vh = window.innerHeight || 800;
+        var inView = r.bottom > 0 && r.top < vh;
         if (observed && inView && m > 0 && performance.now() > manualUntil) {
-          var total = r.height - (window.innerHeight || 800);
-          var p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+          var p = Math.min(Math.max(-r.top / (vh * 0.6), 0), 1);
           var target = p * m;
           if (Math.abs(track.scrollLeft - target) > 2) track.scrollLeft = target;
         }

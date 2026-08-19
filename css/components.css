@@ -608,10 +608,7 @@
 /* ---------- Lavori (gallery orizzontale nativa) ---------- */
 .lavori-scroll {
   position: relative;
-  min-height: 120vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: clamp(60px, 8vw, 96px) 0;
 }
 .lavori-sticky {
   position: static;
