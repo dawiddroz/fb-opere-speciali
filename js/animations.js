@@ -1,25 +1,9 @@
 /* FB Opere Speciali — animations.js
-   Motion (motion.dev) + Lenis: scroll-linked, reveal, horizontal gallery, parallax, magnetic.
-   Pattern retry-loop: i vendor sono locali, ma l'init resta robusto. */
+   Motion (motion.dev) per reveal/micro-interazioni + rAF watchdog per TUTTO
+   ciò che dipende dallo scroll (gallery, parallax, progress bar).
+   Nessun smooth-scroll libreria: scroll NATIVO = massima compatibilità. */
 (function () {
   'use strict';
-
-  function initLenis() {
-    if (typeof Lenis === 'undefined') {
-      if (window.__lenisRetries === undefined) window.__lenisRetries = 0;
-      if (++window.__lenisRetries > 40) return;
-      setTimeout(initLenis, 250);
-      return;
-    }
-    window.lenis = new Lenis({
-      duration: 1.15,
-      easing: function (t) { return 1 - Math.pow(1 - t, 3); },
-      smoothWheel: true
-    });
-    function raf(time) { window.lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    window.__lenisReady = true;
-  }
 
   function initMotion() {
     if (typeof Motion === 'undefined' || typeof Motion.scroll !== 'function') {
@@ -29,13 +13,12 @@
       return;
     }
     var M = Motion;
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* ---------- Reveal generici (inView + spring, una volta sola) ---------- */
     var revealEls = document.querySelectorAll('.reveal, .reveal-img, .reveal-line');
     revealEls.forEach(function (el) {
-      if (el.closest('.lavori-track')) return; // i pannelli lavori li gestisce il track
-      if (el.closest('.split-media')) return;  // la composizione media ha il suo pattern sotto
+      if (el.closest('.lavori-track')) return; // i pannelli lavori sono sempre visibili
+      if (el.closest('.split-media')) return;  // composizione media gestita sotto
       M.inView(el, function () {
         M.animate(el, {
           opacity: [0, 1],
@@ -68,115 +51,6 @@
       }, { amount: 0.6, once: true });
     }
 
-    /* ---------- Parallax hero (scroll-linked) ---------- */
-    var heroBg = document.querySelector('.hero-bg');
-    if (heroBg) {
-      M.scroll(function (p) {
-        heroBg.style.transform = 'scale(1.06) translateY(' + (p * 60) + 'px)';
-      }, { target: document.querySelector('.hero'), offset: ['start start', 'end start'] });
-    }
-
-    /* ---------- Progress bar ---------- */
-    var pbar = document.querySelector('.progress-bar');
-    if (pbar) {
-      M.scroll(function (p) {
-        pbar.style.transform = 'scaleX(' + p + ')';
-      });
-    }
-
-    /* ---------- Gallery orizzontale lavori — SELF-CONTAINED ----------
-       Il track è uno scroller NATIVO (overflow-x + scrollLeft): funziona in
-       qualunque ambiente (browser, webview, preview, touch). Input:
-       - frecce / drag / rotella sul track → scrollLeft
-       - scroll verticale della pagina → avanza la gallery SOLO se si osserva
-         movimento reale del rect (nei browser normali), mai in ambienti anomali
-       Barra di progresso = scrollLeft / max → sincronizzata con TUTTI gli input. */
-    var scrollSec = document.getElementById('lavori');
-    var track = document.getElementById('lavoriTrack');
-    var pbar2 = document.getElementById('lavoriProgressBar');
-    if (scrollSec && track) {
-      var maxScroll = function () { return Math.max(track.scrollWidth - track.clientWidth, 0); };
-
-      var syncBar = function () {
-        var m = maxScroll();
-        pbar2.style.transform = 'scaleX(' + (m > 0 ? track.scrollLeft / m : 0) + ')';
-      };
-      track.addEventListener('scroll', syncBar, { passive: true });
-
-      // Frecce
-      var step = function () { return Math.min((window.innerWidth || 1280) * 0.85, 560); };
-      var prevBtn = document.getElementById('lavoriPrev');
-      var nextBtn = document.getElementById('lavoriNext');
-      if (prevBtn) prevBtn.addEventListener('click', function () {
-        manualUntil = performance.now() + 2500;
-        track.scrollBy({ left: -step(), behavior: 'smooth' });
-      });
-      if (nextBtn) nextBtn.addEventListener('click', function () {
-        manualUntil = performance.now() + 2500;
-        track.scrollBy({ left: step(), behavior: 'smooth' });
-      });
-
-      // Drag con mouse (il touch scrolla nativamente)
-      var down = false, startX = 0, startSL = 0;
-      track.addEventListener('pointerdown', function (e) {
-        down = true; startX = e.clientX; startSL = track.scrollLeft;
-        if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
-        manualUntil = performance.now() + 2500;
-      });
-      track.addEventListener('pointermove', function (e) {
-        if (!down) return;
-        track.scrollLeft = startSL - (e.clientX - startX);
-      });
-      var endDrag = function () { down = false; };
-      track.addEventListener('pointerup', endDrag);
-      track.addEventListener('pointercancel', endDrag);
-
-      // Rotella verticale sul track → scorrimento orizzontale (se c'è strada)
-      track.addEventListener('wheel', function (e) {
-        var m = maxScroll();
-        var atStart = track.scrollLeft <= 0 && e.deltaY < 0;
-        var atEnd = track.scrollLeft >= m - 1 && e.deltaY > 0;
-        if (atStart || atEnd || m <= 0) return;
-        e.preventDefault();
-        track.scrollLeft += e.deltaY;
-        manualUntil = performance.now() + 2500;
-      }, { passive: false });
-
-      // Avanzamento via scroll pagina (ENHANCEMENT guardato):
-      // p = 0 quando la sezione entra dal basso, avanza mentre la sezione
-      // scorre verso l'alto, p = 1 dopo ~60% di viewport. Indipendente
-      // dall'altezza della sezione. Attivo SOLO se si osserva movimento
-      // reale del rect (nei browser normali) e fuori dalla pausa manuale.
-      var observed = false, lastTop = null;
-      var manualUntil = 0;
-      (function loop() {
-        var r = scrollSec.getBoundingClientRect();
-        if (lastTop !== null && Math.abs(r.top - lastTop) > 1) observed = true;
-        lastTop = r.top;
-        var m = maxScroll();
-        var vh = window.innerHeight || 800;
-        var inView = r.bottom > 0 && r.top < vh;
-        if (observed && inView && m > 0 && performance.now() > manualUntil) {
-          var p = Math.min(Math.max(-r.top / (vh * 0.6), 0), 1);
-          var target = p * m;
-          if (Math.abs(track.scrollLeft - target) > 2) track.scrollLeft = target;
-        }
-        requestAnimationFrame(loop);
-      })();
-
-      window.addEventListener('resize', syncBar, { passive: true });
-      syncBar();
-
-      /* video pannello: parte quando entra in vista */
-      var vid = track.querySelector('video');
-      if (vid) {
-        M.inView(vid, function () {
-          var pr = vid.play();
-          if (pr && pr.catch) pr.catch(function () {});
-        }, { amount: 0.4, once: true });
-      }
-    }
-
     /* ---------- Magnetic buttons ---------- */
     var mags = document.querySelectorAll('[data-magnetic]');
     if (window.matchMedia('(pointer: fine)').matches) {
@@ -195,19 +69,126 @@
 
     /* ---------- Ticker: pausa su hover ---------- */
     var ticker = document.querySelector('.ticker-track');
-    if (ticker) {
-      var tWrap = document.querySelector('.ticker');
-      if (tWrap) {
-        tWrap.addEventListener('mouseenter', function () { ticker.style.animationPlayState = 'paused'; });
-        tWrap.addEventListener('mouseleave', function () { ticker.style.animationPlayState = 'running'; });
-      }
+    var tWrap = document.querySelector('.ticker');
+    if (ticker && tWrap) {
+      tWrap.addEventListener('mouseenter', function () { ticker.style.animationPlayState = 'paused'; });
+      tWrap.addEventListener('mouseleave', function () { ticker.style.animationPlayState = 'running'; });
     }
 
     window.__motionReady = true;
   }
-
-  initLenis();
   initMotion();
+
+  /* ============================================================
+     GALLERY LAVORI — scroll-driven con rAF watchdog puro.
+     La sezione ha altezza = corsa orizzontale + viewport; il pin
+     sticky resta fermo mentre la pagina scorre; il watchdog legge
+     la geometria reale OGNI frame e traduce il track. Nessun evento
+     scroll richiesto: funziona con scroll nativo, Lenis assente,
+     webview, touch, rotella, qualsiasi cosa.
+     Frecce e drag compongono un offset manuale sopra lo scroll.
+     ============================================================ */
+  var sec = document.getElementById('lavori');
+  var track = document.getElementById('lavoriTrack');
+  var bar = document.getElementById('lavoriProgressBar');
+  if (sec && track) {
+    var maxShift = 0;
+    var dragOffset = 0;
+    var down = false, startX = 0, startOff = 0;
+
+    var setHeights = function () {
+      var vw = window.innerWidth || document.documentElement.clientWidth || 1280;
+      var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      maxShift = Math.max(track.scrollWidth - vw, 0);
+      sec.style.height = Math.max(maxShift + vh, vh) + 'px';
+    };
+
+    var render = function (p) {
+      var x = -(p * maxShift + dragOffset);
+      if (x > 0) x = 0;
+      if (x < -maxShift) x = -maxShift;
+      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+      // barra = posizione reale (scroll + offset manuale), sincronizzata con tutto
+      var pos = Math.min(Math.max((p * maxShift + dragOffset) / maxShift, 0), 1);
+      if (bar) bar.style.transform = 'scaleX(' + (maxShift > 0 ? pos : 0) + ')';
+    };
+
+    var tick = function () {
+      var r = sec.getBoundingClientRect();
+      var vh = window.innerHeight || 800;
+      var total = r.height - vh;
+      var p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+      render(p);
+      requestAnimationFrame(tick);
+    };
+
+    setHeights();
+    window.addEventListener('resize', function () { setHeights(); }, { passive: true });
+
+    /* Frecce */
+    var step = function () { return Math.min((window.innerWidth || 1280) * 0.85, 520); };
+    var prevBtn = document.getElementById('lavoriPrev');
+    var nextBtn = document.getElementById('lavoriNext');
+    if (prevBtn) prevBtn.addEventListener('click', function () {
+      dragOffset = Math.max(-maxShift, dragOffset - step());
+    });
+    if (nextBtn) nextBtn.addEventListener('click', function () {
+      dragOffset = Math.min(maxShift, dragOffset + step());
+    });
+
+    /* Drag col mouse (touch: lo scroll verticale guida la gallery) */
+    track.addEventListener('pointerdown', function (e) {
+      down = true;
+      startX = e.clientX;
+      startOff = dragOffset;
+      if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      dragOffset = Math.min(maxShift, Math.max(startOff + (e.clientX - startX), -maxShift));
+    });
+    var endDrag = function () { down = false; };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    requestAnimationFrame(tick);
+
+    /* video pannello: parte quando entra in vista (IO puro) */
+    var vid = track.querySelector('video');
+    if (vid && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var pr = vid.play();
+            if (pr && pr.catch) pr.catch(function () {});
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(vid);
+    }
+  }
+
+  /* ============================================================
+     HERO PARALLAX + PROGRESS BAR TOP — rAF, zero eventi richiesti
+     ============================================================ */
+  var heroBg = document.querySelector('.hero-bg');
+  var heroEl = document.querySelector('.hero');
+  var pbar = document.querySelector('.progress-bar');
+  (function loop() {
+    var vh = window.innerHeight || 800;
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    if (heroBg && heroEl) {
+      var p = Math.min(y / heroEl.offsetHeight, 1);
+      heroBg.style.transform = 'translateY(' + (p * 50) + 'px)';
+    }
+    if (pbar) {
+      var doc = document.documentElement;
+      var max = Math.max(doc.scrollHeight - vh, 1);
+      pbar.style.transform = 'scaleX(' + Math.min(y / max, 1) + ')';
+    }
+    requestAnimationFrame(loop);
+  })();
 
   /* ---------- Safety net: se Motion non parte, rivela tutto ---------- */
   setTimeout(function () {

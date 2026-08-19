@@ -28,10 +28,10 @@
 <link rel="preload" href="fonts/fraunces-italic-100-900.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/space-grotesk-300-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="images/hero.jpg" as="image">
-<link rel="stylesheet" href="fonts/fonts.css?v=3.1">
-<link rel="stylesheet" href="css/variables.css?v=3.1">
-<link rel="stylesheet" href="css/base.css?v=3.1">
-<link rel="stylesheet" href="css/components.css?v=3.1">
+<link rel="stylesheet" href="fonts/fonts.css?v=4.0">
+<link rel="stylesheet" href="css/variables.css?v=4.0">
+<link rel="stylesheet" href="css/base.css?v=4.0">
+<link rel="stylesheet" href="css/components.css?v=4.0">
 <style>
 /* Anti-flash: hero parte al primo paint, zero dipendenze JS */
 .hero-badge, .hero-title .word span, .hero-sub, .hero-status, .hero-cta, .hero-stats .stat { opacity: 0; }
@@ -269,9 +269,9 @@
 </section>
 
 <!-- ================= LAVORI (horizontal) ================= -->
-<section class="lavori-scroll" id="lavori">
-  <div class="lavori-sticky">
-    <div class="lavori-top">
+<section class="lavori" id="lavori">
+  <div class="lavori-pin">
+    <div class="lavori-head">
       <div class="section-head" style="margin-bottom:0">
         <span class="kicker"><span class="kicker-idx">03 /</span> Lavori</span>
         <h2>Cantieri reali, <em>da nord a sud</em></h2>
@@ -282,7 +282,8 @@
         <button id="lavoriNext" class="lavori-arrow" aria-label="Scorri avanti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       </div>
     </div>
-    <div class="lavori-track" id="lavoriTrack">
+    <div class="lavori-viewport">
+      <div class="lavori-track" id="lavoriTrack">
       <div class="lavoro-panel lavoro-panel-intro">
         <span class="kicker"><span class="kicker-idx">03 /</span> Lavori</span>
         <h2>Esperienza e professionalità su tutto il <em>territorio</em> nazionale</h2>
@@ -382,6 +383,7 @@
         <p>Il nostro team è pronto a rispondere alle tue domande e a fornirti un preventivo personalizzato.</p>
         <a href="tel:+39069625711" class="btn btn-primary" data-magnetic>06 9625711 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
       </figure>
+    </div>
     </div>
     <div class="lavori-progress" aria-hidden="true"><i id="lavoriProgressBar"></i></div>
   </div>
@@ -669,9 +671,8 @@
   words.forEach(function (el, i) { el.style.animationDelay = (0.2 + i * 0.1) + 's'; });
 })();
 </script>
-<script src="js/vendor/motion.min.js?v=3.1" defer></script>
-<script src="js/vendor/lenis.min.js?v=3.1" defer></script>
-<script src="js/main.js?v=3.1" defer></script>
-<script src="js/animations.js?v=3.1" defer></script>
+<script src="js/vendor/motion.min.js?v=4.0" defer></script>
+<script src="js/main.js?v=4.0" defer></script>
+<script src="js/animations.js?v=4.0" defer></script>
 </body>
 </html>
