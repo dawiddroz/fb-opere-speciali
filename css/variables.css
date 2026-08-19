@@ -1,32 +1,32 @@
 /* ============================================================
    FB OPERE SPECIALI — Design Tokens
-   Dark industrial / engineering · amber accent
+   CHIARO editoriale caldo · accento rame/ambra scura
    ============================================================ */
 :root {
-  /* Surfaces */
-  --bg: #0a0c0e;
-  --bg-2: #0e1114;
-  --bg-3: #14181d;
-  --bg-4: #1a1f25;
-  --line: rgba(255, 255, 255, 0.09);
-  --line-strong: rgba(255, 255, 255, 0.18);
+  /* Surfaces — carta calda */
+  --bg: #f6f4ef;
+  --bg-2: #efece4;
+  --bg-3: #ffffff;
+  --bg-4: #f1eee6;
+  --line: rgba(24, 28, 32, 0.1);
+  --line-strong: rgba(24, 28, 32, 0.22);
 
-  /* Text */
-  --text: #e9ebee;
-  --text-soft: #b7bdc4;
-  --muted: #8b939c;
-  --muted-2: #66707a;
+  /* Text — inchiostro */
+  --text: #1b1e22;
+  --text-soft: #3d434a;
+  --muted: #6b727a;
+  --muted-2: #989fa7;
 
-  /* Accent — sicurezza cantiere */
-  --accent: #e8a33d;
-  --accent-strong: #f6b955;
-  --accent-deep: #b97a1e;
-  --accent-dim: rgba(232, 163, 61, 0.12);
-  --accent-line: rgba(232, 163, 61, 0.35);
+  /* Accent — rame/ambra scura (contrasto su chiaro) */
+  --accent: #a96d0e;
+  --accent-strong: #8f5e00;
+  --accent-deep: #7a4f04;
+  --accent-dim: rgba(169, 109, 14, 0.1);
+  --accent-line: rgba(169, 109, 14, 0.32);
 
   /* Status */
-  --ok: #3ddc84;
-  --warn: #e8a33d;
+  --ok: #1f9d55;
+  --warn: #a96d0e;
 
   /* Type */
   --serif: 'Fraunces', 'Georgia', serif;

@@ -24,7 +24,7 @@
   }
   .cursor-ring.is-active {
     width: 58px; height: 58px;
-    background: rgba(232, 163, 61, 0.08);
+    background: rgba(169, 109, 14, 0.08);
     border-color: var(--accent);
   }
 }
@@ -38,7 +38,7 @@
   border-bottom: 1px solid transparent;
 }
 .nav.scrolled {
-  background: rgba(10, 12, 14, 0.82);
+  background: rgba(246, 244, 239, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--line);
@@ -120,15 +120,15 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(8, 10, 12, 0.92) 0%, rgba(8, 10, 12, 0.62) 45%, rgba(8, 10, 12, 0.35) 100%),
-    linear-gradient(0deg, rgba(8, 10, 12, 0.95) 0%, rgba(8, 10, 12, 0.25) 40%, rgba(8, 10, 12, 0.45) 100%);
+    linear-gradient(90deg, rgba(246, 244, 239, 0.94) 0%, rgba(246, 244, 239, 0.68) 45%, rgba(246, 244, 239, 0.22) 100%),
+    linear-gradient(0deg, rgba(246, 244, 239, 0.92) 0%, rgba(246, 244, 239, 0.18) 40%, rgba(246, 244, 239, 0.38) 100%);
 }
 .hero-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(24, 28, 32, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 28, 32, 0.05) 1px, transparent 1px);
   background-size: 72px 72px;
   -webkit-mask-image: radial-gradient(ellipse 90% 75% at 30% 45%, #000 30%, transparent 75%);
   mask-image: radial-gradient(ellipse 90% 75% at 30% 45%, #000 30%, transparent 75%);
@@ -137,7 +137,7 @@
   position: absolute;
   left: 0; right: 0;
   height: 140px;
-  background: linear-gradient(180deg, transparent, rgba(232, 163, 61, 0.055), transparent);
+  background: linear-gradient(180deg, transparent, rgba(169, 109, 14, 0.06), transparent);
   animation: scanMove 8s linear infinite;
   pointer-events: none;
 }
@@ -310,7 +310,7 @@
   left: 0; right: 0;
   bottom: 0;
   border-top: 1px solid var(--line);
-  background: rgba(8, 10, 12, 0.55);
+  background: rgba(246, 244, 239, 0.68);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 2;
@@ -329,7 +329,7 @@
   padding: 14px 0;
   animation: heroUp 1s 1.35s var(--ease-out) both;
 }
-.hero-tech-inner b { color: var(--accent); font-weight: 500; }
+.hero-tech-inner b { color: var(--accent-strong); font-weight: 500; }
 .hero-tech-inner i { color: var(--accent); font-style: normal; opacity: 0.6; }
 
 .hero-scroll {
@@ -434,7 +434,7 @@
   content: '';
   position: absolute;
   inset: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(24, 28, 32, 0.14);
   border-radius: 6px;
   pointer-events: none;
 }
@@ -577,7 +577,7 @@
 .card:hover .card-arrow {
   background: var(--accent);
   border-color: var(--accent);
-  color: #0a0c0e;
+  color: #fff8ec;
   transform: rotate(-45deg);
 }
 .card-arrow svg { width: 14px; height: 14px; }
@@ -605,13 +605,17 @@
   background: var(--accent-dim);
 }
 
-/* ---------- Lavori (horizontal scroll) ---------- */
-.lavori-scroll { position: relative; }
+/* ---------- Lavori (gallery orizzontale nativa) ---------- */
+.lavori-scroll {
+  position: relative;
+  min-height: 120vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .lavori-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
+  position: static;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -627,16 +631,20 @@
 .lavori-track {
   display: flex;
   gap: 22px;
-  padding: 0 28px;
-  width: max-content;
-  will-change: transform;
-  touch-action: pan-y;
+  padding: 0 28px 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
   cursor: grab;
+  -webkit-overflow-scrolling: touch;
 }
+.lavori-track::-webkit-scrollbar { display: none; }
 .lavori-track:active { cursor: grabbing; }
 .lavoro-panel {
   flex: 0 0 min(500px, 74vw);
   position: relative;
+  scroll-snap-align: start;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -648,6 +656,7 @@
   position: relative;
   aspect-ratio: 1/1;
   overflow: hidden;
+  background: var(--bg-4);
 }
 .lavoro-photo img, .lavoro-photo video {
   width: 100%; height: 100%;
@@ -730,7 +739,7 @@
   gap: 22px;
   padding: 52px;
   background:
-    linear-gradient(140deg, rgba(232, 163, 61, 0.16), transparent 60%),
+    linear-gradient(140deg, rgba(169, 109, 14, 0.14), transparent 60%),
     var(--bg-3);
   border-color: var(--accent-line);
 }
@@ -738,9 +747,8 @@
 .lavoro-panel-cta p { color: var(--muted); max-width: 40ch; }
 
 .lavori-progress {
-  position: absolute;
-  left: 28px; right: 28px;
-  bottom: 34px;
+  position: relative;
+  margin: 34px 28px 0;
   height: 2px;
   background: var(--line);
 }
@@ -966,7 +974,7 @@
 .form-field select,
 .form-field textarea {
   width: 100%;
-  background: var(--bg-2);
+  background: var(--bg-4);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 14px 16px;
@@ -1071,7 +1079,7 @@
   height: 300px;
   border: 0;
   display: block;
-  filter: grayscale(1) invert(0.92) hue-rotate(185deg) contrast(0.88) brightness(0.95);
+  filter: grayscale(0.15) contrast(0.98);
 }
 .map-actions {
   display: flex;
@@ -1196,7 +1204,7 @@
   gap: 40px;
   padding-bottom: 56px;
 }
-.footer-brand img { height: 64px; width: auto; margin-bottom: 18px; }
+.footer-brand img { height: 46px; width: auto; margin-bottom: 18px; }
 .footer-brand p {
   color: var(--muted);
   font-size: 0.88rem;
@@ -1258,13 +1266,13 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text);
-  background: rgba(14, 17, 20, 0.94);
+  background: rgba(246, 244, 239, 0.95);
   backdrop-filter: blur(12px);
   border-top: 1px solid var(--line);
 }
 .mobile-cta-btn-accent {
   background: var(--accent);
-  color: #0a0c0e;
+  color: #fff8ec;
   border-top-color: var(--accent);
 }
 
@@ -1344,7 +1352,7 @@
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: rgba(10, 12, 14, 0.97);
+    background: rgba(246, 244, 239, 0.97);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--line);

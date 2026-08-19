@@ -84,83 +84,84 @@
       });
     }
 
-    /* ---------- Gallery orizzontale lavori — BULLETPROOF ----------
-       Watchdog rAF CONTINUO: legge la geometria reale ogni frame, quindi funziona
-       con Lenis, scroll nativo, webview embedded, drag manuale — qualunque input.
-       Guardie anti-degenerazione: se la geometria è anomala resta ferma su p=0
-       invece di saltare. Drag/swipe + frecce come canali di interazione diretta. */
+    /* ---------- Gallery orizzontale lavori — SELF-CONTAINED ----------
+       Il track è uno scroller NATIVO (overflow-x + scrollLeft): funziona in
+       qualunque ambiente (browser, webview, preview, touch). Input:
+       - frecce / drag / rotella sul track → scrollLeft
+       - scroll verticale della pagina → avanza la gallery SOLO se si osserva
+         movimento reale del rect (nei browser normali), mai in ambienti anomali
+       Barra di progresso = scrollLeft / max → sincronizzata con TUTTI gli input. */
     var scrollSec = document.getElementById('lavori');
     var track = document.getElementById('lavoriTrack');
     var pbar2 = document.getElementById('lavoriProgressBar');
     if (scrollSec && track) {
-      var maxShift = 0;
-      var lastP = -1;
-      var dragOffset = 0;
-      var dragging = false;
+      var maxScroll = function () { return Math.max(track.scrollWidth - track.clientWidth, 0); };
 
-      var setHeights = function () {
-        var vw = window.innerWidth || document.documentElement.clientWidth || 1280;
-        var vh = window.innerHeight || document.documentElement.clientHeight || 800;
-        maxShift = Math.max(track.scrollWidth - vw, 0);
-        scrollSec.style.height = Math.max(maxShift + vh, vh) + 'px';
+      var syncBar = function () {
+        var m = maxScroll();
+        pbar2.style.transform = 'scaleX(' + (m > 0 ? track.scrollLeft / m : 0) + ')';
       };
+      track.addEventListener('scroll', syncBar, { passive: true });
 
-      var render = function (p) {
-        var x = -(p * maxShift + dragOffset);
-        if (x > 0) x = 0;
-        if (x < -maxShift) x = -maxShift;
-        track.style.transform = 'translate3d(' + x + 'px,0,0)';
-        if (pbar2) pbar2.style.transform = 'scaleX(' + p + ')';
-      };
-
-      var update = function () {
-        var r = scrollSec.getBoundingClientRect();
-        var vh = window.innerHeight || 800;
-        var total = r.height - vh;
-        if (total <= 0) { render(0); return; }
-        var p = Math.min(Math.max(-r.top / total, 0), 1);
-        if (Math.abs(p - lastP) > 0.0004 || dragging) { lastP = p; render(p); }
-      };
-
-      // Watchdog continuo — aggiorna anche senza alcun evento scroll
-      (function loop() { update(); requestAnimationFrame(loop); })();
-
-      // Drag / swipe manuale sul track
-      var startX = 0, startOff = 0;
-      track.addEventListener('pointerdown', function (e) {
-        dragging = true;
-        startX = e.clientX;
-        startOff = dragOffset;
-        if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
-      });
-      track.addEventListener('pointermove', function (e) {
-        if (!dragging) return;
-        dragOffset = Math.min(maxShift, Math.max(startOff + (e.clientX - startX), -maxShift));
-        render(lastP);
-      });
-      var endDrag = function () { dragging = false; };
-      track.addEventListener('pointerup', endDrag);
-      track.addEventListener('pointercancel', endDrag);
-
-      // Frecce (dragOffset positivo = avanti; x = -(p*maxShift + dragOffset))
+      // Frecce
       var step = function () { return Math.min((window.innerWidth || 1280) * 0.85, 560); };
       var prevBtn = document.getElementById('lavoriPrev');
       var nextBtn = document.getElementById('lavoriNext');
       if (prevBtn) prevBtn.addEventListener('click', function () {
-        dragOffset = Math.max(-maxShift, dragOffset - step());
-        render(lastP);
+        manualUntil = performance.now() + 2500;
+        track.scrollBy({ left: -step(), behavior: 'smooth' });
       });
       if (nextBtn) nextBtn.addEventListener('click', function () {
-        dragOffset = Math.min(maxShift, dragOffset + step());
-        render(lastP);
+        manualUntil = performance.now() + 2500;
+        track.scrollBy({ left: step(), behavior: 'smooth' });
       });
 
-      // Input secondari (il watchdog copre comunque tutto)
-      window.addEventListener('resize', function () { setHeights(); }, { passive: true });
-      if (window.lenis) window.lenis.on('scroll', update);
+      // Drag con mouse (il touch scrolla nativamente)
+      var down = false, startX = 0, startSL = 0;
+      track.addEventListener('pointerdown', function (e) {
+        down = true; startX = e.clientX; startSL = track.scrollLeft;
+        if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+        manualUntil = performance.now() + 2500;
+      });
+      track.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        track.scrollLeft = startSL - (e.clientX - startX);
+      });
+      var endDrag = function () { down = false; };
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
 
-      setHeights();
-      update();
+      // Rotella verticale sul track → scorrimento orizzontale (se c'è strada)
+      track.addEventListener('wheel', function (e) {
+        var m = maxScroll();
+        var atStart = track.scrollLeft <= 0 && e.deltaY < 0;
+        var atEnd = track.scrollLeft >= m - 1 && e.deltaY > 0;
+        if (atStart || atEnd || m <= 0) return;
+        e.preventDefault();
+        track.scrollLeft += e.deltaY;
+        manualUntil = performance.now() + 2500;
+      }, { passive: false });
+
+      // Avanzamento via scroll pagina (ENHANCEMENT guardato)
+      var observed = false, lastTop = null;
+      var manualUntil = 0;
+      (function loop() {
+        var r = scrollSec.getBoundingClientRect();
+        if (lastTop !== null && Math.abs(r.top - lastTop) > 1) observed = true;
+        lastTop = r.top;
+        var m = maxScroll();
+        var inView = r.bottom > 0 && r.top < (window.innerHeight || 800);
+        if (observed && inView && m > 0 && performance.now() > manualUntil) {
+          var total = r.height - (window.innerHeight || 800);
+          var p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+          var target = p * m;
+          if (Math.abs(track.scrollLeft - target) > 2) track.scrollLeft = target;
+        }
+        requestAnimationFrame(loop);
+      })();
+
+      window.addEventListener('resize', syncBar, { passive: true });
+      syncBar();
 
       /* video pannello: parte quando entra in vista */
       var vid = track.querySelector('video');
