@@ -617,7 +617,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background: var(--bg);
 }
 .lavori-head {
@@ -629,9 +628,14 @@
   margin-bottom: 26px;
 }
 .lavori-viewport {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
-  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
 }
+.lavori-viewport.dragging { cursor: grabbing; }
 .lavori-track {
   display: flex;
   gap: 18px;
@@ -645,6 +649,7 @@
   flex: 0 0 400px;
   width: 400px;
   position: relative;
+  margin: 0; /* reset esplicito: <figure> ha margini UA */
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -664,6 +669,9 @@
   height: 400px;
   object-fit: cover;
   display: block;
+  pointer-events: none;         /* il drag nativo del browser sull'<img> ingoia i pointer → gallery bloccata */
+  -webkit-user-drag: none;
+  user-select: none;
   transition: transform 0.9s var(--ease-out);
 }
 .lavoro-panel:hover .lavoro-photo img { transform: scale(1.06); }

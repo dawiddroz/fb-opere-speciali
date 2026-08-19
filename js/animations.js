@@ -123,7 +123,14 @@
     };
 
     setHeights();
-    window.addEventListener('resize', function () { setHeights(); }, { passive: true });
+    /* Ricalcolo di sicurezza: a load completo (immagini+font) e a ogni resize.
+       I pannelli sono a larghezza fissa, quindi il primo calcolo è già corretto,
+       ma se qualcosa ritarda il layout questi passano sopra. */
+    window.addEventListener('load', setHeights);
+    window.addEventListener('resize', setHeights, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { setHeights(); });
+    }
 
     /* Frecce */
     var step = function () { return Math.min((window.innerWidth || 1280) * 0.85, 520); };
@@ -136,20 +143,26 @@
       dragOffset = Math.min(maxShift, dragOffset + step());
     });
 
-    /* Drag col mouse (touch: lo scroll verticale guida la gallery) */
-    track.addEventListener('pointerdown', function (e) {
+    /* Drag: pointerdown sulla viewport, pointermove/up su window (funziona
+       anche se il pointer esce dal track; capture come fallback) */
+    var viewport = sec.querySelector('.lavori-viewport');
+    var dragTarget = viewport || track;
+    var setDragging = function (on) {
+      if (viewport) viewport.classList.toggle('dragging', on);
+    };
+    dragTarget.addEventListener('pointerdown', function (e) {
       down = true;
       startX = e.clientX;
       startOff = dragOffset;
-      if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+      setDragging(true);
+      if (dragTarget.setPointerCapture) dragTarget.setPointerCapture(e.pointerId);
     });
-    track.addEventListener('pointermove', function (e) {
+    window.addEventListener('pointermove', function (e) {
       if (!down) return;
       dragOffset = Math.min(maxShift, Math.max(startOff + (e.clientX - startX), -maxShift));
     });
-    var endDrag = function () { down = false; };
-    track.addEventListener('pointerup', endDrag);
-    track.addEventListener('pointercancel', endDrag);
+    window.addEventListener('pointerup', function () { down = false; setDragging(false); });
+    window.addEventListener('pointercancel', function () { down = false; setDragging(false); });
 
     requestAnimationFrame(tick);
 
