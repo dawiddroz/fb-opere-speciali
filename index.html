@@ -27,10 +27,10 @@
 <link rel="preload" href="fonts/fraunces-italic-100-900.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/space-grotesk-300-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="images/hero.jpg" as="image">
-<link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/variables.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="fonts/fonts.css?v=2.2">
+<link rel="stylesheet" href="css/variables.css?v=2.2">
+<link rel="stylesheet" href="css/base.css?v=2.2">
+<link rel="stylesheet" href="css/components.css?v=2.2">
 <style>
 /* Anti-flash: hero parte al primo paint, zero dipendenze JS */
 .hero-badge, .hero-title .word span, .hero-sub, .hero-status, .hero-cta, .hero-stats .stat { opacity: 0; }
@@ -275,7 +275,11 @@
         <span class="kicker"><span class="kicker-idx">03 /</span> Lavori</span>
         <h2>Cantieri reali, <em>da nord a sud</em></h2>
       </div>
-      <span class="lavori-hint">Scorri per esplorare →</span>
+      <div class="lavori-nav">
+        <span class="lavori-hint">Scorri per esplorare</span>
+        <button id="lavoriPrev" class="lavori-arrow" aria-label="Scorri indietro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button id="lavoriNext" class="lavori-arrow" aria-label="Scorri avanti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
     </div>
     <div class="lavori-track" id="lavoriTrack">
       <div class="lavoro-panel lavoro-panel-intro">
@@ -664,9 +668,9 @@
   words.forEach(function (el, i) { el.style.animationDelay = (0.2 + i * 0.1) + 's'; });
 })();
 </script>
-<script src="js/vendor/motion.min.js" defer></script>
-<script src="js/vendor/lenis.min.js" defer></script>
-<script src="js/main.js" defer></script>
-<script src="js/animations.js" defer></script>
+<script src="js/vendor/motion.min.js?v=2.2" defer></script>
+<script src="js/vendor/lenis.min.js?v=2.2" defer></script>
+<script src="js/main.js?v=2.2" defer></script>
+<script src="js/animations.js?v=2.2" defer></script>
 </body>
 </html>

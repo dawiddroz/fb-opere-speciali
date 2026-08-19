@@ -19,7 +19,6 @@
     function raf(time) { window.lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     window.__lenisReady = true;
-    if (window.__fboTrackRequest) window.lenis.on('scroll', window.__fboTrackRequest);
   }
 
   function initMotion() {
@@ -85,37 +84,83 @@
       });
     }
 
-    /* ---------- Gallery orizzontale lavori (rAF-driven: funziona con Lenis,
-       scroll nativo e webview embedded — niente dipendenza dagli eventi scroll) ---------- */
+    /* ---------- Gallery orizzontale lavori — BULLETPROOF ----------
+       Watchdog rAF CONTINUO: legge la geometria reale ogni frame, quindi funziona
+       con Lenis, scroll nativo, webview embedded, drag manuale — qualunque input.
+       Guardie anti-degenerazione: se la geometria è anomala resta ferma su p=0
+       invece di saltare. Drag/swipe + frecce come canali di interazione diretta. */
     var scrollSec = document.getElementById('lavori');
     var track = document.getElementById('lavoriTrack');
     var pbar2 = document.getElementById('lavoriProgressBar');
     if (scrollSec && track) {
       var maxShift = 0;
-      var ticking = false;
+      var lastP = -1;
+      var dragOffset = 0;
+      var dragging = false;
+
       var setHeights = function () {
-        maxShift = track.scrollWidth - window.innerWidth;
-        scrollSec.style.height = (maxShift + window.innerHeight) + 'px';
+        var vw = window.innerWidth || document.documentElement.clientWidth || 1280;
+        var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+        maxShift = Math.max(track.scrollWidth - vw, 0);
+        scrollSec.style.height = Math.max(maxShift + vh, vh) + 'px';
       };
-      var updateTrack = function () {
-        ticking = false;
-        var r = scrollSec.getBoundingClientRect();
-        var total = r.height - window.innerHeight;
-        var p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
-        track.style.transform = 'translate3d(' + (-p * maxShift) + 'px,0,0)';
+
+      var render = function (p) {
+        var x = -(p * maxShift + dragOffset);
+        if (x > 0) x = 0;
+        if (x < -maxShift) x = -maxShift;
+        track.style.transform = 'translate3d(' + x + 'px,0,0)';
         if (pbar2) pbar2.style.transform = 'scaleX(' + p + ')';
       };
-      var requestTrack = function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(updateTrack); }
+
+      var update = function () {
+        var r = scrollSec.getBoundingClientRect();
+        var vh = window.innerHeight || 800;
+        var total = r.height - vh;
+        if (total <= 0) { render(0); return; }
+        var p = Math.min(Math.max(-r.top / total, 0), 1);
+        if (Math.abs(p - lastP) > 0.0004 || dragging) { lastP = p; render(p); }
       };
+
+      // Watchdog continuo — aggiorna anche senza alcun evento scroll
+      (function loop() { update(); requestAnimationFrame(loop); })();
+
+      // Drag / swipe manuale sul track
+      var startX = 0, startOff = 0;
+      track.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        startX = e.clientX;
+        startOff = dragOffset;
+        if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+      });
+      track.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        dragOffset = Math.min(maxShift, Math.max(startOff + (e.clientX - startX), -maxShift));
+        render(lastP);
+      });
+      var endDrag = function () { dragging = false; };
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+
+      // Frecce (dragOffset positivo = avanti; x = -(p*maxShift + dragOffset))
+      var step = function () { return Math.min((window.innerWidth || 1280) * 0.85, 560); };
+      var prevBtn = document.getElementById('lavoriPrev');
+      var nextBtn = document.getElementById('lavoriNext');
+      if (prevBtn) prevBtn.addEventListener('click', function () {
+        dragOffset = Math.max(-maxShift, dragOffset - step());
+        render(lastP);
+      });
+      if (nextBtn) nextBtn.addEventListener('click', function () {
+        dragOffset = Math.min(maxShift, dragOffset + step());
+        render(lastP);
+      });
+
+      // Input secondari (il watchdog copre comunque tutto)
+      window.addEventListener('resize', function () { setHeights(); }, { passive: true });
+      if (window.lenis) window.lenis.on('scroll', update);
+
       setHeights();
-      window.addEventListener('resize', function () { setHeights(); requestTrack(); }, { passive: true });
-      window.addEventListener('scroll', requestTrack, { passive: true });
-      // Lenis emette la propria callback ogni frame → copre anche gli ambienti
-      // dove gli eventi scroll nativi non arrivano (webview/preview embedded)
-      window.__fboTrackRequest = requestTrack;
-      if (window.lenis) window.lenis.on('scroll', requestTrack);
-      updateTrack();
+      update();
 
       /* video pannello: parte quando entra in vista */
       var vid = track.querySelector('video');
