@@ -1099,6 +1099,24 @@
   margin-top: 12px;
   flex-wrap: wrap;
 }
+/* Mappa estesa desktop: full-width sotto contatti/preventivo (solo desktop) */
+.map-extended {
+  margin-top: clamp(40px, 5vw, 64px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-3);
+}
+.map-extended iframe {
+  width: 100%;
+  height: 480px;
+  border: 0;
+  display: block;
+  filter: grayscale(0.15) contrast(0.98);
+}
+@media (max-width: 1024px) {
+  .map-extended { display: none; }
+}
 .map-actions a {
   flex: 1 1 auto;
   display: inline-flex;
@@ -1414,9 +1432,21 @@
   }
   .lavoro-panel-intro { flex-basis: 82vw; width: 82vw; padding: 30px 24px; }
   .lavoro-panel-cta { flex-basis: 82vw; width: 82vw; padding: 32px 24px; }
-  /* intro/CTA: altezza al contenuto, mai schiacciati dall'altezza foto */
-  .lavoro-panel-intro, .lavoro-panel-cta { height: auto; min-height: 76vw; }
-  .lavori-head { padding: 0 20px; margin-bottom: 20px; }
+  /* intro/CTA: altezza al contenuto, mai schiacciati dall'altezza foto.
+     Compact: il track deve stare DENTRO il viewport (niente tagli su
+     schermi piccoli — prima il track 555px > viewport 428px su 375px). */
+  .lavoro-panel-intro, .lavoro-panel-cta {
+    height: auto;
+    min-height: 76vw;
+    padding: 26px 22px;
+    gap: 12px;
+  }
+  .lavoro-panel-intro h2 { font-size: 1.55rem; margin: 10px 0; }
+  .lavoro-panel-intro p { font-size: 0.85rem; margin-bottom: 12px; }
+  .lavoro-panel-cta h3 { font-size: 1.4rem; }
+  .lavoro-panel-cta p { font-size: 0.85rem; }
+  .lavoro-panel-intro .btn, .lavoro-panel-cta .btn { padding: 11px 18px; font-size: 0.72rem; }
+  .lavori-head { flex-wrap: wrap; gap: 12px 16px; padding: 0 20px; margin-bottom: 14px; }
   .lavori-track { padding: 0 20px; gap: 14px; }
   .lavori-progress { margin: 20px 20px 0; }
 
