@@ -866,7 +866,7 @@
 /* ---------- Recensioni ---------- */
 .review-summary {
   display: grid;
-  grid-template-columns: 0.9fr 1.4fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
   gap: clamp(36px, 6vw, 80px);
   align-items: center;
 }
@@ -1351,7 +1351,8 @@
     box-shadow: none;
   }
   .split-media .media-second img { aspect-ratio: 16/9; }
-  .review-summary { grid-template-columns: 1fr; }
+  .review-summary { grid-template-columns: minmax(0, 1fr); }
+  .review-count { font-size: 0.6rem; letter-spacing: 0.1em; } /* evita overflow min-content su mobile */
   .contact-grid { grid-template-columns: 1fr; }
 }
 
@@ -1413,6 +1414,8 @@
   }
   .lavoro-panel-intro { flex-basis: 82vw; width: 82vw; padding: 30px 24px; }
   .lavoro-panel-cta { flex-basis: 82vw; width: 82vw; padding: 32px 24px; }
+  /* intro/CTA: altezza al contenuto, mai schiacciati dall'altezza foto */
+  .lavoro-panel-intro, .lavoro-panel-cta { height: auto; min-height: 76vw; }
   .lavori-head { padding: 0 20px; margin-bottom: 20px; }
   .lavori-track { padding: 0 20px; gap: 14px; }
   .lavori-progress { margin: 20px 20px 0; }

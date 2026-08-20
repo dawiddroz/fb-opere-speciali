@@ -1,9 +1,43 @@
 /* FB Opere Speciali — animations.js
    Motion (motion.dev) per reveal/micro-interazioni + rAF watchdog per TUTTO
    ciò che dipende dallo scroll (gallery, parallax, progress bar).
-   Nessun smooth-scroll libreria: scroll NATIVO = massima compatibilità. */
+   Lenis smooth scroll ripristinato (v4.2): scrolla la pagina NATIVAMENTE,
+   quindi il watchdog rAF e i listener scroll restano identici. */
 (function () {
   'use strict';
+
+  /* ---------- Lenis smooth scroll ----------
+     Una sola istanza + rAF loop ufficiale. Lenis aggiorna window.scrollY
+     ad ogni frame: gallery, parallax e progress bar (tutti rAF/scroll-based)
+     funzionano senza alcuna modifica. */
+  if (typeof Lenis !== 'undefined' && !window.__lenis) {
+    var lenis = new Lenis({
+      duration: 1.15,
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.35
+    });
+    window.__lenis = lenis;
+    (function lenisLoop(time) {
+      lenis.raf(time);
+      requestAnimationFrame(lenisLoop);
+    })(0);
+
+    /* Anchor interni: scroll liscio (offset = altezza nav fissa 76px).
+       Il skip-link resta istantaneo per accessibilità. */
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a || a.classList.contains('skip-link')) return;
+      var id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -84, duration: 1.3 });
+      if (history.replaceState) history.replaceState(null, '', id);
+    });
+  }
 
   function initMotion() {
     if (typeof Motion === 'undefined' || typeof Motion.scroll !== 'function') {
@@ -84,8 +118,8 @@
      La sezione ha altezza = corsa orizzontale + viewport; il pin
      sticky resta fermo mentre la pagina scorre; il watchdog legge
      la geometria reale OGNI frame e traduce il track. Nessun evento
-     scroll richiesto: funziona con scroll nativo, Lenis assente,
-     webview, touch, rotella, qualsiasi cosa.
+     scroll richiesto: funziona con Lenis (scroll nativo), rotella,
+     touch, webview, qualsiasi cosa.
      Frecce e drag compongono un offset manuale sopra lo scroll.
      ============================================================ */
   var sec = document.getElementById('lavori');
@@ -101,6 +135,9 @@
       var vh = window.innerHeight || document.documentElement.clientHeight || 800;
       maxShift = Math.max(track.scrollWidth - vw, 0);
       sec.style.height = Math.max(maxShift + vh, vh) + 'px';
+      /* ri-clamp dell'offset manuale dopo resize/ricarica immagini */
+      if (dragOffset > maxShift) dragOffset = maxShift;
+      if (dragOffset < -maxShift) dragOffset = -maxShift;
     };
 
     var render = function (p) {

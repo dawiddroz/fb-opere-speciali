@@ -104,6 +104,9 @@ h1, h2, h3, h4 {
 .section-dark { background: var(--bg-2); }
 .section-rule { border-top: 1px solid var(--line); }
 
+/* anchor sotto la nav fissa (76px) — fallback nativo senza JS */
+main [id] { scroll-margin-top: 84px; }
+
 /* ---------- Reveal pre-hide (anti-flash; JS rivela) ---------- */
 .reveal, .reveal-img, .reveal-line {
   opacity: 0;
