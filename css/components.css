@@ -1430,6 +1430,30 @@
     width: 76vw;
     height: 76vw;
   }
+  /* Card mobile: foto sopra + didascalia SOTTO (mai overlay), leggibile */
+  .lavoro-panel {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .lavoro-photo { flex: 0 0 auto; }
+  .lavoro-photo::after { display: none; } /* niente gradiente: la didascalia non è più sopra la foto */
+  .lavoro-cap {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 12px 14px 13px;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+  }
+  .lavoro-cap .lc-title { text-shadow: none; font-size: 1rem; }
+  .lavoro-cap .lc-meta { text-shadow: none; }
+  /* Track ancorato in basso: la gallery "scende", contenuti centrali
+     rispetto allo spazio visibile, didascalie sempre intere */
+  .lavori-track { align-items: flex-start; }
+  .lavori-viewport { align-items: flex-end; padding-bottom: 14px; }
   .lavoro-panel-intro { flex-basis: 82vw; width: 82vw; padding: 30px 24px; }
   .lavoro-panel-cta { flex-basis: 82vw; width: 82vw; padding: 32px 24px; }
   /* intro/CTA: altezza al contenuto, mai schiacciati dall'altezza foto.
@@ -1449,6 +1473,13 @@
   .lavori-head { flex-wrap: wrap; gap: 12px 16px; padding: 0 20px; margin-bottom: 14px; }
   .lavori-track { padding: 0 20px; gap: 14px; }
   .lavori-progress { margin: 20px 20px 0; }
+
+  /* Schermi molto piccoli (<=380px): intro ancora più compatta così il
+     track sta interamente nel viewport anche abbassato */
+  .lavoro-panel-intro { padding: 20px 18px; }
+  .lavoro-panel-intro h2 { font-size: 1.35rem; margin: 8px 0; }
+  .lavoro-panel-intro p { font-size: 0.78rem; margin-bottom: 10px; }
+  .lavori-viewport { padding-bottom: 6px; }
 
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .contact-form { padding: 26px 22px; }
